@@ -30,7 +30,7 @@ while game_is_on:
     choice = input("\nWhat would you like? (espresso/ latte/ cappucino): ")
 
     if choice == "off":
-        game_is_on = False
+        break
 
     def update_resource(choice):
         if choice == "espresso":
@@ -51,7 +51,7 @@ while game_is_on:
         if choice == "espresso":
             if total > 1.5:
                 balance = total - 1.5
-                balance = round(balance, 2)
+                balance = round(balance, 3)
                 print(f"Here is ${balance} in change!")
                 return balance
             elif total == 1.5:
@@ -61,7 +61,7 @@ while game_is_on:
         if choice == "latte":
             if total > 2.5:
                 balance = total - 2.5
-                balance = round(balance, 2)
+                balance = round(balance, 3)
                 print(f"Here is ${balance} in change!")
                 return balance
             elif total == 2.5:
@@ -71,7 +71,7 @@ while game_is_on:
         if choice == "cappucino":
             if total > 3:
                 balance = total - 3
-                balance = round(balance, 2)
+                balance = round(balance, 3)
                 print(f"Here is ${balance} in change!")
                 return balance
             elif total == 3:
@@ -87,20 +87,22 @@ while game_is_on:
         pennies = int(input("How many pennies?: "))
         total = pennies*0.01 + nickles*0.05 + dimes*0.1 + quarters*0.25
         balance = check_balance(total)
+        balance = round(balance, 3)
         resources["money"] += total - balance
 
 
     def check_resource(choice):
         for each in needed_resources[choice]:
-            resources[each] -= needed_resources[choice][each]
-        if resources[each] == 0:
-            print("\nSorry, there is no enough water")
-        else:
-            print("\nEnter coins\n ")
-            process_coins()
-            print(f"Here is your {choice}, Enjoy !!!")
-            update_resource(choice)
-            print(resources)
+            resources[each] > needed_resources[choice][each]
+            if resources[each] == 0:
+                print("\nSorry, there is no enough water")
+        print("\nEnter coins\n ")
+        process_coins()
+        print(f"Here is your {choice}, Enjoy !!!")
+        update_resource(choice)
+        print(resources)
+        
+
     #     if choice == "espresso":
     #         if resources["water"] > 50:
     #             if resources["coffee"] > 18:
